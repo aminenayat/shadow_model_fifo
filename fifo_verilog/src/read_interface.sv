@@ -1,6 +1,6 @@
 module read_interface #(
     parameter DATA_WIDTH = 8, 
-    parameter ADDR_WIDTH = 5  
+    parameter ADDR_WIDTH = 10  
 )(
     input wire clk,          
     input wire rstn,          

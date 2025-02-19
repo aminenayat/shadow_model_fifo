@@ -1,4 +1,4 @@
-module read_pointer #(ADDR_WIDTH = 5)
+module read_pointer #(ADDR_WIDTH = 10)
 (
   input wire clk,
   input wire rstn,
