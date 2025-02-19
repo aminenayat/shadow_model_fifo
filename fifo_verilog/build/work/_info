@@ -1,0 +1,214 @@
+m255
+K4
+z2
+!s99 nomlopt
+!s11f MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/a/Desktop/shadow_model_fifo/fifo_verilog
+T_opt
+!s110 1739951991
+VLhG;:WkF3O?M?KGVbT^FF3
+04 7 4 work fifo_tb fast 0
+=1-000ae431a4f1-67b58f77-19b6a-6f90a
+!s124 OEM100
+o-quiet -auto_acc_if_foreign -work ./build/work
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2021.2_1;73
+vcompare_logic
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1739951987
+!i10b 1
+!s100 zheJXkLlmiD[];F[dh>zN3
+ISS<2T3@a1I<4Vid=ZnQhA3
+S1
+R0
+w1739951329
+8./src/compare_logic.sv
+F./src/compare_logic.sv
+!i122 1
+L0 1 16
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OL;L;2021.2_1;73
+r1
+!s85 0
+31
+Z6 !s108 1739951987.000000
+Z7 !s107 ./test/fifo_tb.sv|./src/write_pointer.sv|./src/write_interface.sv|./src/read_pointer.sv|./src/read_interface.sv|./src/fifo_memory.sv|./src/dual_port_memory.sv|./src/compare_logic.sv|
+Z8 !s90 -work|./build/work|./src/compare_logic.sv|./src/dual_port_memory.sv|./src/fifo_memory.sv|./src/read_interface.sv|./src/read_pointer.sv|./src/write_interface.sv|./src/write_pointer.sv|./test/fifo_tb.sv|+acc=nrt|
+!i113 0
+Z9 o-work ./build/work +acc=nrt -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vdual_port_memory
+R2
+R3
+!i10b 1
+!s100 5KQC88W8@785Un=bB=^8>2
+IhC`F`zkWie99jUTJR3b1e3
+S1
+R0
+w1739951449
+8./src/dual_port_memory.sv
+F./src/dual_port_memory.sv
+!i122 1
+L0 1 42
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+vfifo_memory
+R2
+R3
+!i10b 1
+!s100 FO5<GQceSC]PBL>4giTS00
+I5JX3n2GJ[k9cEkmlI`Jd50
+S1
+R0
+w1737931190
+8./src/fifo_memory.sv
+F./src/fifo_memory.sv
+!i122 1
+L0 1 73
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+vfifo_tb
+R2
+R3
+!i10b 1
+!s100 K:56[nY1f1klX3^5f<edf1
+I_cCzNjC6aG7R2Og`mBz5b3
+S1
+R0
+w1739951984
+8./test/fifo_tb.sv
+F./test/fifo_tb.sv
+!i122 1
+L0 2 95
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+vread_interface
+R2
+R3
+!i10b 1
+!s100 F?<6H6N_i1EZE<P;aRK3o0
+IFZ76CC^;Mm47;I]_T:a?Z1
+S1
+R0
+w1737924005
+8./src/read_interface.sv
+F./src/read_interface.sv
+!i122 1
+L0 1 26
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+vread_pointer
+R2
+R3
+!i10b 1
+!s100 4dzXLCK;hQ;THYXnTnFgN2
+IJjajbPg9SVS^0l9:Ah]DR0
+S1
+R0
+w1737916030
+8./src/read_pointer.sv
+F./src/read_pointer.sv
+!i122 1
+Z10 L0 1 18
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+vwrite_interface
+R2
+R3
+!i10b 1
+!s100 Mf0g>6nl2JPPfW^oSZOT=2
+I^G710R]oa<FVQZRCYE8LY2
+S1
+R0
+w1737923630
+8./src/write_interface.sv
+F./src/write_interface.sv
+!i122 1
+L0 1 24
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+vwrite_pointer
+R2
+R3
+!i10b 1
+!s100 :TgTDgh8?7S_GbU]eiXN^1
+IAK^3MD?zCkiEZmbjlkR2n1
+S1
+R0
+w1737910406
+8./src/write_pointer.sv
+F./src/write_pointer.sv
+!i122 1
+R10
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1

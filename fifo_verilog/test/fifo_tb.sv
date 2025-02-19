@@ -1,4 +1,3 @@
-// fifo_tb.v
 `timescale 1ns/1ps
 module fifo_tb;
     parameter DATA_WIDTH = 8;
@@ -26,17 +25,16 @@ module fifo_tb;
         .empty(empty)
     );
     
-   
+ 
     reg [DATA_WIDTH-1:0] input_data [0:NUM_VALUES-1];
     integer i;
-    
-
     integer outfile;
     
-   
+  
     always #5 clk = ~clk;
     
     initial begin
+       
         clk = 0;
         rstn = 0;
         write_enable = 0;
@@ -49,16 +47,18 @@ module fifo_tb;
         
         $readmemh("input_hex.txt", input_data);
         
+       
         #10;
         rstn = 1;
         
-        // write
+        
         i = 0;
-        while(i < NUM_VALUES) begin
+        while (i < NUM_VALUES) begin
             @(posedge clk);
             if (!full) begin
                 write_enable = 1;
                 write_data = input_data[i];
+                $display("write_en: %d, write_data: %h", write_enable, write_data);
                 i = i + 1;
             end else begin
                 write_enable = 0;
@@ -66,30 +66,29 @@ module fifo_tb;
         end
         write_enable = 0;
         
-        // کمی تأخیر قبل از خواندن
+        // کمی تأخیر قبل از شروع خواندن
         #20;
         
-    
-    i = 0;
-    while(i < NUM_VALUES) begin
-        @(posedge clk);
-        if (!empty) begin
-            read_enable = 1;  
-        end else begin
+      
+   
+        // while (i < NUM_VALUES) begin
+            @(posedge clk);
+            if (!empty) begin
+                read_enable = 1;
+            end else begin
+                read_enable = 0;
+            end
+            
+            @(posedge clk);
+            if (read_enable) begin
+                $display("read_en: %d, read_data: %h, empty: %b", read_enable, read_data, empty);
+                $fwrite(outfile, "%02x\n", read_data);
+                i = i + 1;
+            end
             read_enable = 0;
-        end
-
-        @(posedge clk);
-     
-        if (read_enable) begin
-            $fwrite(outfile, "%02x\n", read_data);
-            i = i + 1;
-        end
+        // end
         
-        read_enable = 0;
-    end
-
-        
+        // پایان شبیه‌سازی پس از کمی تأخیر
         #50;
         $fclose(outfile);
         $finish;
