@@ -13,25 +13,38 @@ module dual_port_memory #(
 );
 
 // TODO: Fix array dimension index
-    reg [DATA_WIDTH-1:0] memory_array [2**ADDR_WIDTH-1:0];
+    reg [DATA_WIDTH-1:0] memory_array [0:(1<<ADDR_WIDTH)-1];
 
     // مقداردهی اولیه آرایه حافظه
-    integer i;
-    initial begin
-        for (i = 0; i < 2**ADDR_WIDTH; i = i + 1)
-            memory_array[i] = 0;
-    end
 
+// integer i;
+// always @(posedge clk or negedge rstn ) begin
+//     for ( i=0 ; i < (1<<ADDR_WIDTH ); i=i+1) begin
+//         memory_array[i] = 0;
+//     end
+// end
+
+// مقدار دهی اولیه به حافظه رو من اینطور بنویسم :
+
+integer i;
 always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        i <= 0;  // مقدار اولیه شمارنده
+    end else if (i < (1 << ADDR_WIDTH)) begin
+        memory_array[i] <= 0;
+        i <= i + 1;  // مقداردهی را در چندین سیکل انجام بده
+    end
+end
+
+
+always @(posedge clk) begin
     if (write_en) begin
         memory_array[write_addr] <= write_data;
     end 
 end
 
-always @(posedge clk or negedge rstn) begin
-    if (!rstn) begin
-        read_data <= 0;
-    end else begin
+always @(posedge clk ) begin
+    if(read_en) begin
         read_data <= memory_array[read_addr];
     end
 end
