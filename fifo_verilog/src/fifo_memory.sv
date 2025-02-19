@@ -13,36 +13,48 @@ module fifo_memory #(
 );
 
     // سیگنال‌های داخلی
-    wire [ADDR_WIDTH:0] write_addr; // آدرس نوشتن
-    wire [ADDR_WIDTH:0] read_addr;  // آدرس خواندن
-    wire mem_write_en;             // سیگنال نوشتن حافظه
-    wire mem_read_en;              // سیگنال خواندن حافظه
-
+    wire [ADDR_WIDTH:0] write_addr; 
+    wire [ADDR_WIDTH:0] read_addr;  
+    wire write_trigger; 
+    wire read_trigger;
 
     write_interface #(
-        .DATA_WIDTH(DATA_WIDTH),
-        .ADDR_WIDTH(ADDR_WIDTH)
+        .DATA_WIDTH(DATA_WIDTH)
     ) write_if (
         .clk(clk),
         .rstn(rstn),
         .write_en(write_enable),
-        .write_data(write_data),
         .full(full),
-        .write_addr(write_addr),
-        .mem_write_en(mem_write_en)
+        .write_trigger(write_trigger) 
     );
 
-  
-    read_interface #(
-        .DATA_WIDTH(DATA_WIDTH),
+    write_pointer #(
         .ADDR_WIDTH(ADDR_WIDTH)
+    ) write_ptr (
+        .clk(clk),
+        .rstn(rstn),
+        .write_trigger(write_trigger), 
+        .write_addr(write_addr) 
+    );
+
+
+    read_interface #(
+        .DATA_WIDTH(DATA_WIDTH)
     ) read_if (
         .clk(clk),
         .rstn(rstn),
         .read_en(read_enable),
         .empty(empty),
-        .read_addr(read_addr),
-        .mem_read_en(mem_read_en)
+        .read_trigger(read_trigger)  
+    );
+
+    read_pointer #(
+    .ADDR_WIDTH(ADDR_WIDTH)
+    ) read_ptr (
+    .clk(clk),
+    .rstn(rstn),
+    .read_trigger(read_trigger),  
+    .read_addr(read_addr)  
     );
 
    
@@ -52,8 +64,8 @@ module fifo_memory #(
     ) memory (
         .clk(clk),
         .rstn(rstn),
-        .write_en(mem_write_en),
-        .read_en(mem_read_en),
+        .write_en(write_trigger),
+        .read_en(read_trigger),
         .write_addr(write_addr[ADDR_WIDTH-1:0]), // تبدیل آدرس به اندیس مناسب
         .read_addr(read_addr[ADDR_WIDTH-1:0]),  // تبدیل آدرس به اندیس مناسب
         .write_data(write_data),

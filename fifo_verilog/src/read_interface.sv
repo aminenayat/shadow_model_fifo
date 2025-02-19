@@ -1,26 +1,14 @@
 module read_interface #(
-    parameter DATA_WIDTH = 8, 
-    parameter ADDR_WIDTH = 10  
+    parameter DATA_WIDTH = 8
 )(
-    input wire clk,          
-    input wire rstn,          
-    input wire read_en,       
-    input wire empty,          
-    output wire [ADDR_WIDTH:0] read_addr, 
-    output wire mem_read_en   
+    input wire clk,
+    input wire rstn,
+    input wire read_en,  
+    input wire empty, 
+    output wire read_trigger 
 );
 
-    read_pointer #(
-        .ADDR_WIDTH(ADDR_WIDTH)
-    ) uut_rp (
-        .clk(clk),
-        .rstn(rstn),
-        .read_en(read_en && !empty), // کنترل خواندن
-        .empty(empty),
-        .read_addr(read_addr)
-    );
-
-
-    assign mem_read_en = read_en && !empty;
+   
+    assign read_trigger = read_en && !empty;
 
 endmodule
