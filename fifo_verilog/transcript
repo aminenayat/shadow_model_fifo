@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim -work ./build/work fifo_tb -do "run -all" 
-# Start time: 11:29:50 on Feb 19,2025
+# Start time: 13:52:23 on Feb 19,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Warning: ./src/fifo_memory.sv(66): (vopt-2685) [TFMPC] - Too few port connections for 'cmp_logic'.  Expected 5, found 4.
 # ** Warning: ./src/fifo_memory.sv(66): (vopt-2718) [TFMPC] - Missing connection for port 'write_ena'.
@@ -29,39 +29,72 @@
 # Loading work.compare_logic(fast)
 # run -all
 # write_en: 1, write_data: 6b
+# read_en: 1, read_data: 00, empty: 0
 # write_en: 1, write_data: ea
+# read_en: 1, read_data: 00, empty: 0
 # write_en: 1, write_data: ca
+# read_en: 1, read_data: 6b, empty: 0
 # write_en: 1, write_data: f5
+# read_en: 1, read_data: ea, empty: 0
 # write_en: 1, write_data: a7
+# read_en: 1, read_data: ca, empty: 0
 # write_en: 1, write_data: 09
+# read_en: 1, read_data: f5, empty: 0
 # write_en: 1, write_data: d9
+# read_en: 1, read_data: a7, empty: 0
 # write_en: 1, write_data: ef
+# read_en: 1, read_data: 09, empty: 0
 # write_en: 1, write_data: ad
+# read_en: 1, read_data: d9, empty: 0
 # write_en: 1, write_data: c1
+# read_en: 1, read_data: ef, empty: 0
 # write_en: 1, write_data: be
+# read_en: 1, read_data: ad, empty: 0
 # write_en: 1, write_data: 64
+# read_en: 1, read_data: c1, empty: 0
 # write_en: 1, write_data: a7
+# read_en: 1, read_data: be, empty: 0
 # write_en: 1, write_data: 2b
+# read_en: 1, read_data: 64, empty: 0
 # write_en: 1, write_data: b4
+# read_en: 1, read_data: a7, empty: 0
 # write_en: 1, write_data: 08
+# read_en: 1, read_data: 2b, empty: 0
 # write_en: 1, write_data: 46
+# read_en: 1, read_data: b4, empty: 0
 # write_en: 1, write_data: 0b
+# read_en: 1, read_data: 08, empty: 0
 # write_en: 1, write_data: 18
+# read_en: 1, read_data: 46, empty: 0
 # write_en: 1, write_data: d2
+# read_en: 1, read_data: 0b, empty: 0
 # write_en: 1, write_data: b1
+# read_en: 1, read_data: 18, empty: 0
 # write_en: 1, write_data: 51
+# read_en: 1, read_data: d2, empty: 0
 # write_en: 1, write_data: f3
+# read_en: 1, read_data: b1, empty: 0
 # write_en: 1, write_data: 08
+# read_en: 1, read_data: 51, empty: 0
 # write_en: 1, write_data: 70
+# read_en: 1, read_data: f3, empty: 0
 # write_en: 1, write_data: 61
+# read_en: 1, read_data: 08, empty: 0
 # write_en: 1, write_data: c3
+# read_en: 1, read_data: 70, empty: 0
 # write_en: 1, write_data: cb
+# read_en: 1, read_data: 61, empty: 0
 # write_en: 1, write_data: 2f
+# read_en: 1, read_data: c3, empty: 0
 # write_en: 1, write_data: 7d
+# read_en: 1, read_data: cb, empty: 0
 # write_en: 1, write_data: 72
+# read_en: 1, read_data: 2f, empty: 0
 # write_en: 1, write_data: a5
-# read_en: 1, read_data: xx, empty: 0
-# ** Note: $finish    : ./test/fifo_tb.sv(94)
-#    Time: 405 ns  Iteration: 0  Instance: /fifo_tb
+# read_en: 1, read_data: 7d, empty: 0
+# ** Note: $finish    : ./test/fifo_tb.sv(77)
+#    Time: 1335 ns  Iteration: 0  Instance: /fifo_tb
 # 1
-# Break at ./test/fifo_tb.sv line 94
+# Break at ./test/fifo_tb.sv line 77
+# End time: 13:52:47 on Feb 19,2025, Elapsed time: 0:00:24
+# Errors: 0, Warnings: 2

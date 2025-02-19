@@ -15,6 +15,8 @@ module dual_port_memory #(
 
 reg [DATA_WIDTH-1:0] memory_array [0:(1<<ADDR_WIDTH)-1];
 
+reg [DATA_WIDTH-1 : 0] write_data_reg ;
+
 // مقداردهی اولیه در چند سیکل برای سنتز
 integer i;
 always @(posedge clk or negedge rstn) begin
@@ -22,21 +24,27 @@ always @(posedge clk or negedge rstn) begin
 for(i=0;i<(1<<ADDR_WIDTH);i=i+1) begin
     memory_array[i] = 0;
     end
+    read_data<=0;
+   
+    write_data_reg <=0;
 end
 end
 
 
 always @(posedge clk) begin
     if (write_en) begin
-        memory_array[write_addr] <= write_data;
+        write_data_reg <= write_data;
+        memory_array[write_addr] <= write_data_reg;
     end 
 end
 
 // عملیات خواندن در حافظه (با یک سیکل تأخیر)
 always @(posedge clk) begin
     if (read_en) begin
+
         read_data <= memory_array[read_addr];
-    end
+       
+    end 
 end
 
 endmodule

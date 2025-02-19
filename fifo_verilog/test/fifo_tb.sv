@@ -10,7 +10,6 @@ module fifo_tb;
     wire [DATA_WIDTH-1:0] read_data;
     wire full, empty;
     
-    
     fifo_memory #(
         .DATA_WIDTH(DATA_WIDTH),
         .ADDR_WIDTH(ADDR_WIDTH)
@@ -25,7 +24,6 @@ module fifo_tb;
         .empty(empty)
     );
     
- 
     reg [DATA_WIDTH-1:0] input_data [0:NUM_VALUES-1];
     integer i;
     integer outfile;
@@ -34,59 +32,44 @@ module fifo_tb;
     always #5 clk = ~clk;
     
     initial begin
-       
+        // مقداردهی اولیه سیگنال‌ها
         clk = 0;
         rstn = 0;
         write_enable = 0;
         read_enable = 0;
         write_data = 0;
         
-       
         outfile = $fopen("verilog_fifo_memory.txt", "w");
-        
-        
         $readmemh("input_hex.txt", input_data);
         
-       
+      
         #10;
         rstn = 1;
         
-        
-        i = 0;
-        while (i < NUM_VALUES) begin
+        // انجام عملیات نوشتن و خواندن به صورت جفت به جفت
+        for (i = 0; i < NUM_VALUES; i = i + 1) begin
+            // عملیات نوشتن
             @(posedge clk);
-            if (!full) begin
-                write_enable = 1;
-                write_data = input_data[i];
-                $display("write_en: %d, write_data: %h", write_enable, write_data);
-                i = i + 1;
-            end else begin
-                write_enable = 0;
-            end
-        end
-        write_enable = 0;
-        
-        // کمی تأخیر قبل از شروع خواندن
-        #20;
-        
-      
-   
-        // while (i < NUM_VALUES) begin
+            while (full)
+                @(posedge clk);
+            write_enable = 1;
+            write_data = input_data[i];
+            $display("write_en: %d, write_data: %h", write_enable, write_data);
             @(posedge clk);
-            if (!empty) begin
-                read_enable = 1;
-            end else begin
-                read_enable = 0;
-            end
+            write_enable = 0;
             
+            // اضافه کردن یک چرخه تأخیر برای بروزرسانی سیگنال read_data
             @(posedge clk);
-            if (read_enable) begin
-                $display("read_en: %d, read_data: %h, empty: %b", read_enable, read_data, empty);
-                $fwrite(outfile, "%02x\n", read_data);
-                i = i + 1;
-            end
+            
+            // عملیات خواندن
+            while (empty)
+                @(posedge clk);
+            read_enable = 1;
+            @(posedge clk);
+            $display("read_en: %d, read_data: %h, empty: %b", read_enable, read_data, empty);
+            $fwrite(outfile, "%02x\n", read_data);
             read_enable = 0;
-        // end
+        end
         
         // پایان شبیه‌سازی پس از کمی تأخیر
         #50;
