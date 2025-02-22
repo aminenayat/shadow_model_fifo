@@ -9,7 +9,7 @@ module compare_logic #(ADDR_WIDTH = 10)
 );
 
 // assign empty = (write_addr == read_addr);
-assign empty = (write_addr == read_addr) && (write_ena== 0);
+assign empty = (write_addr == read_addr) ;
 
 assign full = (write_addr[ADDR_WIDTH] != read_addr[ADDR_WIDTH]) && (write_addr[ADDR_WIDTH -1 :0] == read_addr[ADDR_WIDTH -1:0]);
 

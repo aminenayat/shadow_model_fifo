@@ -15,7 +15,6 @@ module dual_port_memory #(
 
 reg [DATA_WIDTH-1:0] memory_array [0:(1<<ADDR_WIDTH)-1];
 
-reg [DATA_WIDTH-1 : 0] write_data_reg ;
 
 // مقداردهی اولیه در چند سیکل برای سنتز
 integer i;
@@ -25,16 +24,13 @@ for(i=0;i<(1<<ADDR_WIDTH);i=i+1) begin
     memory_array[i] = 0;
     end
     read_data<=0;
-   
-    write_data_reg <=0;
-end
-end
 
+end
+end
 
 always @(posedge clk) begin
     if (write_en) begin
-        write_data_reg <= write_data;
-        memory_array[write_addr] <= write_data_reg;
+        memory_array[write_addr] <= write_data;
     end 
 end
 

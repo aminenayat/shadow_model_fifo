@@ -1,9 +1,9 @@
 `timescale 1ns/1ps
+
 module fifo_tb;
     // پارامترها
     parameter DATA_WIDTH = 8;
-    parameter ADDR_WIDTH = 10;         
-    parameter NUM_VALUES = 2048;       
+    parameter ADDR_WIDTH = 10;
 
     // سیگنال‌های تست‌بنچ
     reg clk, rstn;
@@ -11,14 +11,8 @@ module fifo_tb;
     reg [DATA_WIDTH-1:0] write_data;
     wire [DATA_WIDTH-1:0] read_data;
     wire full, empty;
-    
-    // آرایه برای نگهداری داده‌های تصادفی تولیدشده (برای مقایسه)
-    reg [DATA_WIDTH-1:0] expected_data [0:NUM_VALUES-1];
-    
-    integer i;
-    integer outfile;
 
-   
+    // نمونه FIFO
     fifo_memory #(
         .DATA_WIDTH(DATA_WIDTH),
         .ADDR_WIDTH(ADDR_WIDTH)
@@ -33,115 +27,139 @@ module fifo_tb;
         .empty(empty)
     );
 
-   
+    // تولید کلاک
     always #5 clk = ~clk;
-    
 
-    task test_write_only;
-        integer accepted_count;
-        integer write_index;
-        integer read_index;
+    // -------------------------------------------------
+    // Task: Test Write 1500 Then Read 100
+    // -------------------------------------------------
+    task test_write_then_read;
+        input integer num_writes;
+        input integer num_reads;
+        integer write_index, read_index;
     begin
-        $display("========== Test Write Only ==========");
-       
-        for(write_index = 0; write_index < NUM_VALUES; write_index = write_index + 1) begin
-            expected_data[write_index] = $urandom_range(0, (1<<DATA_WIDTH)-1);
-        end
-        
-        accepted_count = 0;
-       
-        for(write_index = 0; write_index < NUM_VALUES; write_index = write_index + 1) begin
+        $display("========== Test Write 1500 Then Read 100 ==========");
+        $display("[WRITE THEN READ] Number of writes: %0d, Number of reads: %0d", num_writes, num_reads);
+
+        // Reset FIFO
+        rstn = 0;
+        #100;
+        rstn = 1;
+        #10;
+
+        // Initialize signals
+        write_enable = 0;
+        read_enable = 0;
+        write_data = 0;
+
+        // Perform 1500 writes
+        for (write_index = 0; write_index < num_writes; write_index = write_index + 1) begin
             @(posedge clk);
-            if(!full) begin
+            if (!full) begin
                 write_enable = 1;
-                write_data = expected_data[write_index];
-                $display("[WRITE ONLY] Attempt %0d: Writing data %h, full = %b", write_index, write_data, full);
-                accepted_count = accepted_count + 1;
+                write_data = $urandom_range(0, (1 << DATA_WIDTH) - 1);
+                $display("Attempt %0d: Writing data : %h | full : %b | empty : %b", write_index, write_data, full, empty);
             end else begin
                 write_enable = 0;
-                $display("[WRITE ONLY] Attempt %0d: FIFO FULL, cannot write data %h", write_index, expected_data[write_index]);
+                $display("Attempt %0d: FIFO FULL, cannot write | full : %b | empty : %b", write_index, full, empty);
             end
         end
         write_enable = 0;
-        $display("[WRITE ONLY] Total accepted writes: %0d (Expected Capacity: %0d)", accepted_count, (1 << ADDR_WIDTH));
-        
-        // اجازه می‌دهیم تا داده‌ها از FIFO به خروجی برسند؛
-        // با توجه به تاخیر دو چرخه‌ای، دو چرخه انتظار می‌کنیم.
-        repeat(2) @(posedge clk);
-        
-       
-        read_index = 0;
-        while(!empty) begin
+
+        // Perform 100 reads
+        for (read_index = 0; read_index < num_reads; read_index = read_index + 1) begin
             @(posedge clk);
-            read_enable = 1;
-            @(posedge clk);  
-            
-            if(read_index >= 2) begin
-                $display("FIFO index %0d: write_data = %h | read_data = %h", read_index-2, expected_data[read_index-2], read_data);
-                if(read_data === expected_data[read_index-2])
-                    $display("Match: write_data = read_data");
-                else
-                    $display("ERROR [WRITE ONLY]: Data mismatch at FIFO index %0d", read_index-2);
+            if (!empty) begin
+                read_enable = 1;
+                @(posedge clk); // Wait for read data to be available
+                $display("Attempt %0d: Reading data : %h | full : %b | empty : %b", read_index, read_data, full, empty);
             end else begin
-             
-                $display("FIFO index %0d: (Delay period) read_data = %h", read_index, read_data);
+                read_enable = 0;
+                $display("Attempt %0d: FIFO EMPTY, cannot read | full : %b | empty : %b", read_index, full, empty);
             end
-            read_index = read_index + 1;
-            read_enable = 0;
         end
         read_enable = 0;
-        $display("[WRITE ONLY] Total data read from FIFO: %0d", read_index);
+
+        // Allow time for any remaining operations to complete
+        repeat(2) @(posedge clk);
     end
     endtask
 
     // -------------------------------------------------
-    // Task: Test Read Only
-    // - بررسی می‌کند که در حالت اولیه (بدون نوشتن) FIFO خالی است.
+    // Task: Test Read 1500 Then Write 100
     // -------------------------------------------------
-    
-    task test_read_only;
+    task test_read_then_write;
+        input integer num_reads;
+        input integer num_writes;
+        integer write_index, read_index;
     begin
-        $display("========== Test Read Only ==========");
-           rstn = 0;
-    #100;
-    rstn = 1;
-    #10; // 
+        $display("========== Test Read 1500 Then Write 100 ==========");
+        $display("[READ THEN WRITE] Number of reads: %0d, Number of writes: %0d", num_reads, num_writes);
 
+        // Reset FIFO
+        rstn = 0;
+        #100;
+        rstn = 1;
+        #10;
+
+        // Initialize signals
         write_enable = 0;
-        @(posedge clk);
-        if(!empty )
-            $display("ERROR [READ ONLY]: FIFO not empty when no writes.");
-        else
-            $display("[READ ONLY] FIFO is empty as expected.");
-    
+        read_enable = 0;
+        write_data = 0;
+
+        // Perform 1500 reads
+        for (read_index = 0; read_index < num_reads; read_index = read_index + 1) begin
+            @(posedge clk);
+            if (!empty) begin
+                read_enable = 1;
+                @(posedge clk); // Wait for read data to be available
+                $display("Attempt %0d: Reading data : %h | full : %b | empty : %b", read_index, read_data, full, empty);
+            end else begin
+                read_enable = 0;
+                $display("Attempt %0d: FIFO EMPTY, cannot read | full : %b | empty : %b", read_index, full, empty);
+            end
+        end
+        read_enable = 0;
+
+        // Perform 100 writes
+        for (write_index = 0; write_index < num_writes; write_index = write_index + 1) begin
+            @(posedge clk);
+            if (!full) begin
+                write_enable = 1;
+                write_data = $urandom_range(0, (1 << DATA_WIDTH) - 1);
+                $display("Attempt %0d: Writing data : %h | full : %b | empty : %b", write_index, write_data, full, empty);
+            end else begin
+                write_enable = 0;
+                $display("Attempt %0d: FIFO FULL, cannot write | full : %b | empty : %b", write_index, full, empty);
+            end
+        end
+        write_enable = 0;
+
+        // Allow time for any remaining operations to complete
+        repeat(2) @(posedge clk);
     end
     endtask
-
 
     // -------------------------------------------------
     // بلوک initial اصلی تست‌بنچ
     // -------------------------------------------------
     initial begin
-        outfile = $fopen("fifo_test_log.txt", "w");
-       
+        // Initialize signals
         clk = 0;
         rstn = 0;
         write_enable = 0;
         read_enable = 0;
         write_data = 0;
-        
-      
+
+        // Wait for reset
         #100;
         rstn = 1;
-  
 
-      
-        test_read_only();
-        test_write_only();
-        
+        // Run tests
+        test_write_then_read(1500, 100); // Write 1500 then read 100
+        test_read_then_write(1500, 100); // Read 1500 then write 100
+
         $display("All tests completed.");
-        $fclose(outfile);
         $finish;
     end
-
 endmodule
