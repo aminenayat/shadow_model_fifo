@@ -1,5 +1,5 @@
 module write_pointer #(
-    parameter ADDR_WIDTH = 4
+    parameter ADDR_WIDTH = 10
 )(
     input wire clk,
     input wire rstn,
