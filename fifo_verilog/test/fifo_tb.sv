@@ -2,11 +2,11 @@
 
 module fifo_tb();
 
-  // پارامترها برای FIFO با عمق 1024
+  
   parameter DATA_WIDTH = 8;
   parameter ADDR_WIDTH = 10; // 2^10 = 1024
 
-  // سیگنال‌ها
+  
   reg                    clk;
   reg                    rstn;
   reg                    write_enable;
@@ -19,7 +19,7 @@ module fifo_tb();
   integer i;
   reg [7:0] random_value;
 
-  // ماژول FIFO
+
   fifo_memory #(
     .DATA_WIDTH(DATA_WIDTH),
     .ADDR_WIDTH(ADDR_WIDTH)
@@ -34,21 +34,21 @@ module fifo_tb();
     .empty        (empty)
   );
 
-  // تولید کلاک با پریود 10ns
+ 
   initial begin
     clk = 0;
     forever #5 clk = ~clk;
   end
 
-  // بلوک اصلی تست
+
   initial begin
-    // مقدار اولیه سیگنال‌ها
+
     rstn         = 0;
     write_enable = 0;
     read_enable  = 0;
     write_data   = 8'h00;
 
-    // کمی در حالت ریست
+  
     #20;
     rstn = 1;
     #20;
@@ -98,13 +98,13 @@ module fifo_tb();
     $display("\n--------------------------------------------------");
     $display("Test #2: Write 100 data -> then Read 1050 data (FIFO depth = 1024)");
 
-    // ریست مجدد
+ 
     rstn = 0;
     #10;
     rstn = 1;
     #10;
 
-    // نوشتن 100 داده
+   
     for (i = 1; i <= 100; i = i + 1) begin
       random_value = $random & 8'hFF;
       write_data   = random_value;
@@ -121,7 +121,7 @@ module fifo_tb();
       #10;
     end
 
-    // حالا 1050 بار می‌خوانیم
+  
     $display("  Now reading 1050 data from FIFO (after Test #2)...");
     for (i = 1; i <= 1050; i = i + 1) begin
       if (!empty) begin
@@ -144,13 +144,13 @@ module fifo_tb();
     $display("\n--------------------------------------------------");
     $display("Test #3: Write 1024 data -> then Read 1024 data (FIFO depth = 1024)");
 
-    // ریست دوباره
+   
     rstn = 0;
     #10;
     rstn = 1;
     #10;
 
-    // نوشتن 1024 داده
+
     for (i = 1; i <= 1024; i = i + 1) begin
       random_value = $random & 8'hFF;
       write_data   = random_value;
@@ -167,7 +167,7 @@ module fifo_tb();
       #10;
     end
 
-    // تلاشی برای نوشتن دادهٔ 1025
+  
     random_value = $random & 8'hFF;
     write_data   = random_value;
     if (!full) begin
@@ -195,7 +195,7 @@ module fifo_tb();
       #10;
     end
 
-    // تلاشی برای خواندن دادهٔ 1025 (حین خالی بودن FIFO)
+    
     if (!empty) begin
       read_enable = 1;
       #10;
@@ -206,7 +206,7 @@ module fifo_tb();
       $display("    FIFO is empty; cannot read data 1025");
     end
 
-    // پایان شبیه‌سازی
+  
     #100;
     $stop;
   end
