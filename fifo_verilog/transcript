@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim -work ./build/work fifo_tb -do "run -all" 
-# Start time: 16:00:48 on Feb 26,2025
+# Start time: 16:13:32 on Feb 26,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Warning: ./src/fifo_memory.sv(78): (vopt-2685) [TFMPC] - Too few port connections for 'cmp_logic'.  Expected 5, found 4.
 # ** Warning: ./src/fifo_memory.sv(78): (vopt-2718) [TFMPC] - Missing connection for port 'write_ena'.
@@ -28,6 +28,7 @@
 # Loading work.dual_port_memory(fast)
 # Loading work.compare_logic(fast)
 # run -all
+# --------------------------------------------------
 # Starting test #1: Writing 20 data to FIFO with capacity 16
 #   Writing data 1: 24
 #   Writing data 2: 81
@@ -71,6 +72,7 @@
 #   FIFO is empty; cannot read data 19
 #   FIFO is empty; cannot read data 20
 # 
+# --------------------------------------------------
 # Starting test #2: Writing 4 data and then reading 20 times
 #   Writing data 1: 12
 #   Writing data 2: 8f
@@ -97,6 +99,28 @@
 #     FIFO is empty; cannot read data 18
 #     FIFO is empty; cannot read data 19
 #     FIFO is empty; cannot read data 20
-# ** Note: $stop    : ./test/fifo_tb.sv(140)
-#    Time: 1200 ns  Iteration: 0  Instance: /fifo_tb
-# Break at ./test/fifo_tb.sv line 140
+# 
+# --------------------------------------------------
+# Starting test #3: Write & Read in one loop (16 times), then attempt more write
+#   Writing data 1: e8 -- Reading data 1: e8
+#   Writing data 2: c5 -- Reading data 2: c5
+#   Writing data 3: 5c -- Reading data 3: 5c
+#   Writing data 4: bd -- Reading data 4: bd
+#   Writing data 5: 2d -- Reading data 5: 2d
+#   Writing data 6: 65 -- Reading data 6: 65
+#   Writing data 7: 63 -- Reading data 7: 63
+#   Writing data 8: 0a -- Reading data 8: 0a
+#   Writing data 9: 80 -- Reading data 9: 80
+#   Writing data 10: 20 -- Reading data 10: 20
+#   Writing data 11: aa -- Reading data 11: aa
+#   Writing data 12: 9d -- Reading data 12: 9d
+#   Writing data 13: 96 -- Reading data 13: 96
+#   Writing data 14: 13 -- Reading data 14: 13
+#   Writing data 15: 0d -- Reading data 15: 0d
+#   Writing data 16: 53 -- Reading data 16: 53
+#   Attempt to write data 17: 6b
+# ** Note: $stop    : ./test/fifo_tb.sv(202)
+#    Time: 1710 ns  Iteration: 0  Instance: /fifo_tb
+# Break at ./test/fifo_tb.sv line 202
+# End time: 16:14:23 on Feb 26,2025, Elapsed time: 0:00:51
+# Errors: 0, Warnings: 2
