@@ -13,7 +13,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim -work ./build/work fifo_tb -do "run -all" 
-# Start time: 11:48:31 on Feb 24,2025
+# Start time: 16:00:48 on Feb 26,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Warning: ./src/fifo_memory.sv(78): (vopt-2685) [TFMPC] - Too few port connections for 'cmp_logic'.  Expected 5, found 4.
 # ** Warning: ./src/fifo_memory.sv(78): (vopt-2718) [TFMPC] - Missing connection for port 'write_ena'.
@@ -28,67 +28,75 @@
 # Loading work.dual_port_memory(fast)
 # Loading work.compare_logic(fast)
 # run -all
-# Testing: write_data > read_data
-# index memory: 0 | write_data: 24 | read_data: 00 | full: 0 | empty: 0
-# index memory: 1 | write_data: 81 | read_data: 00 | full: 0 | empty: 0
-# index memory: 2 | write_data: 09 | read_data: 00 | full: 0 | empty: 0
-# index memory: 3 | write_data: 63 | read_data: 00 | full: 0 | empty: 0
-# index memory: 4 | write_data: 0d | read_data: 00 | full: 0 | empty: 0
-# index memory: 5 | write_data: 8d | read_data: 00 | full: 0 | empty: 0
-# index memory: 6 | write_data: 65 | read_data: 00 | full: 0 | empty: 0
-# index memory: 7 | write_data: 12 | read_data: 00 | full: 0 | empty: 0
-# index memory: 8 | write_data: 01 | read_data: 00 | full: 0 | empty: 0
-# index memory: 9 | write_data: 0d | read_data: 00 | full: 0 | empty: 0
-# index memory: 10 | write_data: 76 | read_data: 00 | full: 0 | empty: 0
-# index memory: 11 | write_data: 3d | read_data: 00 | full: 0 | empty: 0
-# index memory: 12 | write_data: ed | read_data: 00 | full: 0 | empty: 0
-# index memory: 13 | write_data: 8c | read_data: 00 | full: 0 | empty: 0
-# index memory: 14 | write_data: f9 | read_data: 00 | full: 0 | empty: 0
-# index memory: 15 | write_data: c6 | read_data: 00 | full: 1 | empty: 0
-# index memory: 16 | write_data: c5 | read_data: 00 | full: 1 | empty: 0
-# index memory: 17 | write_data: aa | read_data: 00 | full: 1 | empty: 0
-# index memory: 18 | write_data: e5 | read_data: 00 | full: 1 | empty: 0
-# index memory: 19 | write_data: 77 | read_data: 00 | full: 1 | empty: 0
-# Testing: read_data > write_data
-# index memory: 0 | write_data: 12 | read_data: 24 | full: 0 | empty: 0
-# index memory: 1 | write_data: 8f | read_data: 81 | full: 0 | empty: 0
-# index memory: 2 | write_data: f2 | read_data: 09 | full: 0 | empty: 0
-# index memory: 3 | write_data: ce | read_data: 63 | full: 0 | empty: 0
-# index memory: 4 | write_data: e8 | read_data: 0d | full: 0 | empty: 0
-# index memory: 5 | write_data: c5 | read_data: 8d | full: 0 | empty: 0
-# index memory: 6 | write_data: 5c | read_data: 65 | full: 0 | empty: 0
-# index memory: 7 | write_data: bd | read_data: 12 | full: 0 | empty: 0
-# index memory: 8 | write_data: 2d | read_data: 01 | full: 0 | empty: 0
-# index memory: 9 | write_data: 65 | read_data: 0d | full: 0 | empty: 0
-# index memory: 10 | write_data: 63 | read_data: 76 | full: 0 | empty: 0
-# index memory: 11 | write_data: 0a | read_data: 3d | full: 0 | empty: 0
-# index memory: 12 | write_data: 80 | read_data: ed | full: 0 | empty: 0
-# index memory: 13 | write_data: 20 | read_data: 8c | full: 0 | empty: 0
-# index memory: 14 | write_data: aa | read_data: f9 | full: 0 | empty: 0
-# index memory: 15 | write_data: 9d | read_data: c6 | full: 0 | empty: 1
-# index memory: 16 | write_data: 96 | read_data: c6 | full: 0 | empty: 1
-# index memory: 17 | write_data: 13 | read_data: c6 | full: 0 | empty: 1
-# index memory: 18 | write_data: 0d | read_data: c6 | full: 0 | empty: 1
-# index memory: 19 | write_data: 53 | read_data: c6 | full: 0 | empty: 1
-# Testing: write_data = read_data
-# index memory: 0 | write_data: 6b | read_data: c6 | full: 0 | empty: 0
-# index memory: 1 | write_data: d5 | read_data: 6b | full: 0 | empty: 0
-# index memory: 2 | write_data: 02 | read_data: d5 | full: 0 | empty: 0
-# index memory: 3 | write_data: ae | read_data: 02 | full: 0 | empty: 0
-# index memory: 4 | write_data: 1d | read_data: ae | full: 0 | empty: 0
-# index memory: 5 | write_data: cf | read_data: 1d | full: 0 | empty: 0
-# index memory: 6 | write_data: 23 | read_data: cf | full: 0 | empty: 0
-# index memory: 7 | write_data: 0a | read_data: 23 | full: 0 | empty: 0
-# index memory: 8 | write_data: ca | read_data: 0a | full: 0 | empty: 0
-# index memory: 9 | write_data: 3c | read_data: ca | full: 0 | empty: 0
-# index memory: 10 | write_data: f2 | read_data: 3c | full: 0 | empty: 0
-# index memory: 11 | write_data: 8a | read_data: f2 | full: 0 | empty: 0
-# index memory: 12 | write_data: 41 | read_data: 8a | full: 0 | empty: 0
-# index memory: 13 | write_data: d8 | read_data: 41 | full: 0 | empty: 0
-# index memory: 14 | write_data: 78 | read_data: d8 | full: 0 | empty: 0
-# index memory: 15 | write_data: 89 | read_data: 78 | full: 0 | empty: 0
-# ** Note: $stop    : ./test/fifo_tb.sv(86)
-#    Time: 570 ns  Iteration: 0  Instance: /fifo_tb
-# Break at ./test/fifo_tb.sv line 86
-# End time: 11:48:46 on Feb 24,2025, Elapsed time: 0:00:15
-# Errors: 0, Warnings: 2
+# Starting test #1: Writing 20 data to FIFO with capacity 16
+#   Writing data 1: 24
+#   Writing data 2: 81
+#   Writing data 3: 09
+#   Writing data 4: 63
+#   Writing data 5: 0d
+#   Writing data 6: 8d
+#   Writing data 7: 65
+#   Writing data 8: 12
+#   Writing data 9: 01
+#   Writing data 10: 0d
+#   Writing data 11: 76
+#   Writing data 12: 3d
+#   Writing data 13: ed
+#   Writing data 14: 8c
+#   Writing data 15: f9
+#   Writing data 16: c6
+#   FIFO is full; cannot write data 17
+#   FIFO is full; cannot write data 18
+#   FIFO is full; cannot write data 19
+#   FIFO is full; cannot write data 20
+# Now reading 20 data from FIFO (after first test) ...
+#   Reading data 1: 24
+#   Reading data 2: 81
+#   Reading data 3: 09
+#   Reading data 4: 63
+#   Reading data 5: 0d
+#   Reading data 6: 8d
+#   Reading data 7: 65
+#   Reading data 8: 12
+#   Reading data 9: 01
+#   Reading data 10: 0d
+#   Reading data 11: 76
+#   Reading data 12: 3d
+#   Reading data 13: ed
+#   Reading data 14: 8c
+#   Reading data 15: f9
+#   Reading data 16: c6
+#   FIFO is empty; cannot read data 17
+#   FIFO is empty; cannot read data 18
+#   FIFO is empty; cannot read data 19
+#   FIFO is empty; cannot read data 20
+# 
+# Starting test #2: Writing 4 data and then reading 20 times
+#   Writing data 1: 12
+#   Writing data 2: 8f
+#   Writing data 3: f2
+#   Writing data 4: ce
+#   Now reading 20 data from FIFO ...
+#     Reading data 1: 12
+#     Reading data 2: 8f
+#     Reading data 3: f2
+#     Reading data 4: ce
+#     FIFO is empty; cannot read data 5
+#     FIFO is empty; cannot read data 6
+#     FIFO is empty; cannot read data 7
+#     FIFO is empty; cannot read data 8
+#     FIFO is empty; cannot read data 9
+#     FIFO is empty; cannot read data 10
+#     FIFO is empty; cannot read data 11
+#     FIFO is empty; cannot read data 12
+#     FIFO is empty; cannot read data 13
+#     FIFO is empty; cannot read data 14
+#     FIFO is empty; cannot read data 15
+#     FIFO is empty; cannot read data 16
+#     FIFO is empty; cannot read data 17
+#     FIFO is empty; cannot read data 18
+#     FIFO is empty; cannot read data 19
+#     FIFO is empty; cannot read data 20
+# ** Note: $stop    : ./test/fifo_tb.sv(140)
+#    Time: 1200 ns  Iteration: 0  Instance: /fifo_tb
+# Break at ./test/fifo_tb.sv line 140

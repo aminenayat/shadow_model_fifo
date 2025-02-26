@@ -1,5 +1,5 @@
 module read_pointer #(
-    parameter ADDR_WIDTH = 10
+    parameter ADDR_WIDTH = 4
 )(
     input wire clk,
     input wire rstn,

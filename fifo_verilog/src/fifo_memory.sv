@@ -1,6 +1,6 @@
 module fifo_memory #(
     parameter DATA_WIDTH = 8, 
-    parameter ADDR_WIDTH = 10  
+    parameter ADDR_WIDTH = 4  
 )(
     input wire clk,            
     input wire rstn,           

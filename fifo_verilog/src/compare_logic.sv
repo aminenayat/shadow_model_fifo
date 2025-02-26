@@ -1,4 +1,4 @@
-module compare_logic #(ADDR_WIDTH = 10)
+module compare_logic #(ADDR_WIDTH = 4)
 (
     input wire [ADDR_WIDTH : 0] write_addr,
     input wire [ADDR_WIDTH : 0] read_addr,
