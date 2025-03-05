@@ -1,83 +1,140 @@
-// c_fifo_memory.c
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
+#include <stdlib.h>
 
-#define ADDR_WIDTH 5
-#define FIFO_DEPTH (1 << ADDR_WIDTH)
+#define FIFO_SIZE 1024
 
 typedef struct {
-    uint8_t memory[FIFO_DEPTH];
-    unsigned int write_ptr;
-    unsigned int read_ptr;
+    uint8_t buffer[FIFO_SIZE];
+    int write_ptr;
+    int read_ptr;
+    int count;
 } FIFO_t;
 
-void fifo_init(FIFO_t *fifo) {
-    fifo->write_ptr = 0;
-    fifo->read_ptr = 0;
+FIFO_t fifo;
+
+// مقداردهی اولیه FIFO
+void fifo_init() {
+    fifo.write_ptr = 0;
+    fifo.read_ptr = 0;
+    fifo.count = 0;
 }
 
-bool fifo_empty(FIFO_t *fifo) {
-    return (fifo->write_ptr == fifo->read_ptr);
+// بررسی پر بودن FIFO
+int fifo_is_full() {
+    return (fifo.count == FIFO_SIZE);
 }
 
-bool fifo_full(FIFO_t *fifo) {
-    return ((fifo->write_ptr - fifo->read_ptr) == FIFO_DEPTH);
+// بررسی خالی بودن FIFO
+int fifo_is_empty() {
+    return (fifo.count == 0);
 }
 
-bool fifo_write(FIFO_t *fifo, uint8_t data) {
-    if (fifo_full(fifo))
-        return false;
-    fifo->memory[fifo->write_ptr % FIFO_DEPTH] = data;
-    fifo->write_ptr++;
-    return true;
+// نوشتن در FIFO
+int fifo_write(uint8_t data) {
+    if (fifo_is_full()) {
+        return -1; // FIFO پر است
+    }
+    fifo.buffer[fifo.write_ptr] = data;
+    fifo.write_ptr = (fifo.write_ptr + 1) % FIFO_SIZE;
+    fifo.count++;
+    return 0; // موفقیت‌آمیز
 }
 
-bool fifo_read(FIFO_t *fifo, uint8_t *data) {
-    if (fifo_empty(fifo))
-        return false;
-    *data = fifo->memory[fifo->read_ptr % FIFO_DEPTH];
-    fifo->read_ptr++;
-    return true;
+// خواندن از FIFO
+int fifo_read(uint8_t *data) {
+    if (fifo_is_empty()) {
+        return -1; // FIFO خالی است
+    }
+    *data = fifo.buffer[fifo.read_ptr];
+    fifo.read_ptr = (fifo.read_ptr + 1) % FIFO_SIZE;
+    fifo.count--;
+    return 0; // موفقیت‌آمیز
+}
+
+// اجرای تست‌های FIFO
+void run_fifo_tests() {
+    int i;
+    uint8_t data;
+    int result;
+
+    printf("--------------------------------------------------\n");
+    printf("Test #1: Writing 1050 data and then reading 1050 data\n");
+
+    fifo_init();
+    
+    for (i = 1; i <= 1050; i++) {
+        uint8_t random_value = rand() & 0xFF;
+        result = fifo_write(random_value);
+        if (result == 0) {
+            printf("  Writing data %d: %02X\n", i, random_value);
+        } else {
+            printf("  FIFO is full; cannot write data %d\n", i);
+        }
+    }
+
+    printf("Now reading 1050 data from FIFO...\n");
+    for (i = 1; i <= 1050; i++) {
+        result = fifo_read(&data);
+        if (result == 0) {
+            printf("  Reading data %d: %02X\n", i, data);
+        } else {
+            printf("  FIFO is empty; cannot read data %d\n", i);
+        }
+    }
+
+    printf("\n--------------------------------------------------\n");
+    printf("Test #2: Writing 100 data and then reading 1050 data\n");
+
+    fifo_init();
+    
+    for (i = 1; i <= 100; i++) {
+        uint8_t random_value = rand() & 0xFF;
+        result = fifo_write(random_value);
+        if (result == 0) {
+            printf("  Writing data %d: %02X\n", i, random_value);
+        } else {
+            printf("  FIFO is full; cannot write data %d\n", i);
+        }
+    }
+
+    printf("Now reading 1050 data from FIFO...\n");
+    for (i = 1; i <= 1050; i++) {
+        result = fifo_read(&data);
+        if (result == 0) {
+            printf("  Reading data %d: %02X\n", i, data);
+        } else {
+            printf("  FIFO is empty; cannot read data %d\n", i);
+        }
+    }
+
+    printf("\n--------------------------------------------------\n");
+    printf("Test #3: Writing 1024 data and then reading 1024 data\n");
+
+    fifo_init();
+    
+    for (i = 1; i <= 1024; i++) {
+        uint8_t random_value = rand() & 0xFF;
+        result = fifo_write(random_value);
+        if (result == 0) {
+            printf("  Writing data %d: %02X\n", i, random_value);
+        } else {
+            printf("  FIFO is full; cannot write data %d\n", i);
+        }
+    }
+
+    printf("Now reading 1024 data from FIFO...\n");
+    for (i = 1; i <= 1024; i++) {
+        result = fifo_read(&data);
+        if (result == 0) {
+            printf("  Reading data %d: %02X\n", i, data);
+        } else {
+            printf("  FIFO is empty; cannot read data %d\n", i);
+        }
+    }
 }
 
 int main() {
-    FILE *infile, *outfile;
-    FIFO_t fifo;
-    fifo_init(&fifo);
-    
-    infile = fopen("input_hex.txt", "r");
-    if (infile == NULL) {
-        fprintf(stderr, "error for opening file   input_hex.txt\n");
-        return 1;
-    }
-    
-    outfile = fopen("c_fifo_memory.txt", "w");
-    if (outfile == NULL) {
-        fprintf(stderr, "error for opening file    c_fifo_memory.txt\n");
-        fclose(infile);
-        return 1;
-    }
-    
-    uint8_t value;
-    // بخش نوشتن: خواندن هر خط از فایل ورودی و وارد کردن به FIFO
-    while (fscanf(infile, "%2hhX", &value) == 1) {
-        if (!fifo_write(&fifo, value)) {
-            fprintf(stderr, "خطا: FIFO پر است در زمان نوشتن.\n");
-            break;
-        }
-    }
-    fclose(infile);
-    
-    // بخش خواندن: خواندن از FIFO و نوشتن خروجی در فایل
-    while (!fifo_empty(&fifo)) {
-        if (fifo_read(&fifo, &value)) {
-            fprintf(outfile, "%02x\n", value);
-        }
-    }
-    
-    fclose(outfile);
+    run_fifo_tests();
     return 0;
 }
-
